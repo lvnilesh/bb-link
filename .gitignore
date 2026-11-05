@@ -50,7 +50,10 @@ Thumbs.db
 
 .vscode/
 
+.pio/
+
 src/bb-link/build/
+src/bb-link/*.ino.cpp
 
 *.o
 *.out

@@ -13,7 +13,7 @@ Added support for M5Stack ATOM-Lite
 </a>
 
 <br/>
- 
+
 ### 👉 <a href="https://islandmagic.co/products/B-B-Link-Adapter-p629580960?utm_campaign=diy&utm_medium=web&utm_source=github">Check out</a> the sleek ready-made version that plugs directly into USB-C!
 
 <hr/>
@@ -22,7 +22,7 @@ Added support for M5Stack ATOM-Lite
 
 Some devices, like the Kenwood TH-D75 radio only support Bluetooth Classic serial profile. iOS devices only support Bluetooth Low Energy (BLE). They are not compatible and as such, you can't pair those devices together. This code provides a way to create an adapter that can interface a device that exposes a serial profile over Bluetooth Classic, to an iOS device via BLE. Its main purpose is to enable iOS app that supports AX.25 packet like RadioMail or APRS.fi to use the TNC built in the radio as a modem.
 
-For a detailed "how-to build" this adapter, watch this video: 
+For a detailed "how-to build" this adapter, watch this video:
 
 [![Watch the video](https://image.mux.com/SZQsZnBJDJf4GMUrTRxJ386tSpsIlRP02yfmXZr79TKg/thumbnail.png?time=1200)](https://player.mux.com/SZQsZnBJDJf4GMUrTRxJ386tSpsIlRP02yfmXZr79TKg)
 
@@ -78,6 +78,23 @@ https://github.com/islandmagic/bb-link/tree/master/enclosure/contribs/F4LFJ
 1. Flash the code to the TinyPICO board
 1. Download [B.B. Link Configurator](https://apps.apple.com/us/app/b-b-link-configurator/id6476163710) app on your phone
 1. Download RadioMail on your phone [https://radiomail.app](https://radiomail.app)
+
+### M5Stack ATOM Lite Build and Install
+
+For the original ESP32-based ATOM Lite, install [PlatformIO Core](https://docs.platformio.org/en/latest/core/installation/) and use the included script instead of the TinyPICO flashing instructions above. ATOM S3 boards are not compatible because they lack Bluetooth Classic.
+
+```sh
+./scripts/build_install.sh build
+pio device list
+./scripts/build_install.sh install /dev/ttyUSB1
+./scripts/build_install.sh monitor /dev/ttyUSB1
+```
+
+Replace `/dev/ttyUSB1` with your ATOM's serial port. A stable `/dev/serial/by-id/...` path is preferred on Linux. Your user must have read/write access to the port. Exit the serial monitor with Ctrl+C.
+
+The default script action is `build`. The `install` action builds and flashes only the explicitly named port; it does not run the legacy bulk-flash or factory-reset scripts. Commands work from any working directory.
+
+The PlatformIO configuration pins the ESP32 platform and library versions, uses the ATOM's onboard button and RGB LED, and reserves two firmware partitions for OTA updates. Build products and downloaded libraries stay in the ignored `.pio/` directory.
 
 ### Rig Control
 
@@ -191,4 +208,3 @@ This project is open source, so everyone's contribution is welcome. Here's a qui
 * **Write Good Issue Reports**: If you encounter bugs or have feature suggestions, please submit an issue report with a clear title, a detailed description, and steps to reproduce the issue if it's a bug.
 
 The source code for the [Configurator](https://github.com/islandmagic/ios-bblink-config) app is available as well.
-
